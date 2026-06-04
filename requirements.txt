@@ -1,0 +1,4 @@
+flask
+pypdf
+httpx
+python-dotenv
