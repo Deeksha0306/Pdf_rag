@@ -8,10 +8,10 @@ A simple local RAG (Retrieval-Augmented Generation) system for PDFs. Upload a PD
 
 1. PDF text is extracted page-by-page using `pypdf`
 2. Text is split into 400-word chunks with 60-word overlaps
-3. Each chunk is embedded using Anthropic's `voyage-3` model (real semantic vectors)
+3. Each chunk is embedded using Google's `gemini-embedding-001` model (real semantic vectors)
 4. When you ask a question, it's also embedded and compared against all chunks via cosine similarity
-5. The top 4 most relevant chunks are sent to `claude-sonnet-4` as context
-6. Claude answers strictly from that context
+5. The top 4 most relevant chunks are sent to `gemini-2.5-flash` as context
+6. Gemini answers strictly from that context
 
 ---
 
@@ -45,8 +45,10 @@ pip install -r requirements.txt
 Open `.env` and replace the placeholder:
 
 ```
-ANTHROPIC_API_KEY=sk-ant-your-key-here
+GEMINI_API_KEY=your-gemini-api-key-here
 ```
+
+Get a free key at [aistudio.google.com](https://aistudio.google.com) — no credit card required.
 
 ### 3. Run
 
@@ -76,8 +78,8 @@ All tunable constants are at the top of `rag.py`:
 | `CHUNK_SIZE` | `400` | Words per chunk |
 | `CHUNK_OVERLAP` | `60` | Word overlap between chunks |
 | `TOP_K` | `4` | Chunks retrieved per query |
-| `EMBED_MODEL` | `voyage-3` | Embedding model |
-| `CHAT_MODEL` | `claude-sonnet-4-20250514` | Model used for answering |
+| `EMBED_MODEL` | `gemini-embedding-001` | Embedding model |
+| `CHAT_MODEL` | `gemini-2.5-flash` | Model used for answering |
 
 ---
 
@@ -95,6 +97,5 @@ All tunable constants are at the top of `rag.py`:
 |---------|---------|
 | `flask` | Web server |
 | `pypdf` | PDF text extraction |
-| `anthropic` | Claude API for answering |
-| `httpx` | HTTP client for embedding API |
+| `httpx` | HTTP client for Gemini API calls |
 | `python-dotenv` | Load `.env` file |
